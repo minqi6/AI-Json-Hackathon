@@ -1,0 +1,45 @@
+# version: "0.1"
+
+# flow:
+#   ingredient breakdown:
+#     action: llm
+#     prompt:
+#       - role: system
+#         text: You're a house cook. The user tells you what food they want and you respond with the ingredient needed.
+#       - role: user
+#         text: |
+#           What do you want to eat:
+#           ```
+#           {{ food }}
+#           ```
+#           Based on the name of the food, list the ingredients needed.
+
+
+version: "0.1"
+
+flow:
+  ask:
+    action: llm
+    prompt: List the ingrediants of {{ thing }}
+  extract:
+    action: extract_list
+    text:
+      link: ask
+
+
+##### recipe reccomendation framework #####
+# inputs: food category -> appetizer, main course, dessert -> 
+# food type -> italian, mexican, chinese, indian, etc
+#         diatary restrictions -> vegan, vegetarian, gluten free, dairy free, nut free, etc
+#         ingredients -> list of ingredients available
+
+# outputs: recipe -> list of ingredients, steps to make the recipe
+
+#### smart health assistant add-on ####
+# inputs: user's health data -> age, weight, height -> calculate BMI and caloric intake per day
+#         user's health goals -> weight loss, muscle gain, maintain weight
+#         user's daily activity level -> sedentary, light active, moderate active, very active
+#         user's medical conditions -> diabetes, high blood pressure, high cholesterol, etc
+# outputs:  nutrition needed -> protein, carbs, fats, vitamins, minerals
+# what food ingredient contain these nutrients and what recipes can be made with these ingredients
+# daily meal plan -> breakfast, lunch, dinner, snacks
