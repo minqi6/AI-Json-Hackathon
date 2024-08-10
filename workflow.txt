@@ -1,0 +1,30 @@
+Workflow
+
+
+First step:
+Ask user inputs
+
+Health info:
+    - weight, gender, height, active level
+    - goals (lose weight/gain muscles etc.)
+    - any illness
+    - Dietary requirements: allergies, prefrences
+    - 
+
+(-> deduce Nutritional requirememnts: 
+    - arbohydrates, proteins, fats, vitamins, minerals, and water
+    -
+) (optional)
+
+
+follow up:
+    - 
+
+
+Output:
+
+    - recipe plan for the week / 3 days 
+
+
+
+
