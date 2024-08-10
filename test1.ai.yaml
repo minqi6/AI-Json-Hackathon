@@ -1,45 +1,119 @@
-# version: "0.1"
-
-# flow:
-#   ingredient breakdown:
-#     action: llm
-#     prompt:
-#       - role: system
-#         text: You're a house cook. The user tells you what food they want and you respond with the ingredient needed.
-#       - role: user
-#         text: |
-#           What do you want to eat:
-#           ```
-#           {{ food }}
-#           ```
-#           Based on the name of the food, list the ingredients needed.
-
-
 version: "0.1"
 
-flow:
-  ask:
+flows:
+  ingredient_breakdown:
     action: llm
-    prompt: List the ingrediants of {{ thing }}
-  extract:
-    action: extract_list
-    text:
-      link: ask
+    prompt: |
+      You are a house cook with extensive knowledge of recipes. 
+      Given the food item "{{ food }}", list all the ingredients needed to prepare it.
+    extract:
+      action: extract_list
+      text:
+        link: ingredient_breakdown
 
+  recipe_recommendation:
+    action: recipe_generator
+    inputs:
+      category: "{{ category }}"
+      type: "{{ type }}"
+      dietary_restrictions: "{{ dietary_restrictions }}"
+      available_ingredients: "{{ ingredients }}"
+    outputs:
+      recipe: "{{ recipe }}"
+      steps: "{{ steps }}"
 
-##### recipe reccomendation framework #####
-# inputs: food category -> appetizer, main course, dessert -> 
-# food type -> italian, mexican, chinese, indian, etc
-#         diatary restrictions -> vegan, vegetarian, gluten free, dairy free, nut free, etc
-#         ingredients -> list of ingredients available
+  health_assistant:
+    action: health_analysis
+    inputs:
+      age: "{{ age }}"
+      weight: "{{ weight }}"
+      height: "{{ height }}"
+      goals: "{{ goals }}"
+      activity_level: "{{ activity_level }}"
+      medical_conditions: "{{ conditions }}"
+    outputs:
+      nutrition_needed: "{{ nutrition_needed }}"
+      recommended_ingredients: "{{ recommended_ingredients }}"
+      daily_meal_plan:
+        breakfast: "{{ breakfast }}"
+        lunch: "{{ lunch }}"
+        dinner: "{{ dinner }}"
+        snacks: "{{ snacks }}"
 
-# outputs: recipe -> list of ingredients, steps to make the recipe
+  user_feedback:
+    action: collect_feedback
+    inputs:
+      user_id: "{{ user_id }}"
+      feedback: "{{ feedback }}"
+    outputs:
+      status: "{{ status }}"
+      comments: "{{ comments }}"
 
-#### smart health assistant add-on ####
-# inputs: user's health data -> age, weight, height -> calculate BMI and caloric intake per day
-#         user's health goals -> weight loss, muscle gain, maintain weight
-#         user's daily activity level -> sedentary, light active, moderate active, very active
-#         user's medical conditions -> diabetes, high blood pressure, high cholesterol, etc
-# outputs:  nutrition needed -> protein, carbs, fats, vitamins, minerals
-# what food ingredient contain these nutrients and what recipes can be made with these ingredients
-# daily meal plan -> breakfast, lunch, dinner, snacks
+  contextual_recipe_suggestions:
+    action: contextual_recipe_generator
+    inputs:
+      category: "{{ category }}"
+      type: "{{ type }}"
+      dietary_restrictions: "{{ dietary_restrictions }}"
+      available_ingredients: "{{ ingredients }}"
+      user_preferences: "{{ user_preferences }}"
+      seasonal_ingredients: "{{ seasonal_ingredients }}"
+    outputs:
+      suggested_recipes: "{{ suggested_recipes }}"
+      context_notes: "{{ context_notes }}"
+
+  grocery_integration:
+    action: find_grocery_stores
+    inputs:
+      ingredients: "{{ ingredients }}"
+      location: "{{ user_location }}"
+    outputs:
+      store_links: "{{ store_links }}"
+      delivery_options: "{{ delivery_options }}"
+
+  advanced_nutritional_analysis:
+    action: nutritional_analysis
+    inputs:
+      ingredients: "{{ ingredients }}"
+      daily_nutrition_requirements: "{{ daily_nutrition_requirements }}"
+    outputs:
+      nutrient_distribution: "{{ nutrient_distribution }}"
+      health_benefits: "{{ health_benefits }}"
+
+  recipe_adjustments:
+    action: adjust_recipe
+    inputs:
+      recipe: "{{ recipe }}"
+      servings: "{{ servings }}"
+      substitutions: "{{ substitutions }}"
+    outputs:
+      adjusted_recipe: "{{ adjusted_recipe }}"
+      adjusted_steps: "{{ adjusted_steps }}"
+
+  personalized_recommendations:
+    action: generate_recommendations
+    inputs:
+      user_id: "{{ user_id }}"
+      past_meals: "{{ past_meals }}"
+      preferences: "{{ preferences }}"
+    outputs:
+      personalized_recipes: "{{ personalized_recipes }}"
+      recommended_ingredients: "{{ recommended_ingredients }}"
+
+  logging_and_analytics:
+    action: log_usage
+    inputs:
+      user_id: "{{ user_id }}"
+      action: "{{ action }}"
+      timestamp: "{{ timestamp }}"
+      details: "{{ details }}"
+    outputs:
+      log_status: "{{ log_status }}"
+
+  multilingual_support:
+    action: translate
+    inputs:
+      text: "{{ text }}"
+      target_language: "{{ target_language }}"
+    outputs:
+      translated_text: "{{ translated_text }}"
