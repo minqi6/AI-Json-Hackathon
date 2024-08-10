@@ -5,12 +5,22 @@ import subprocess
 
 def ingredient_breakdown(food):
     result = subprocess.run(
-            ['python', 'run_flow.py', food],
+            ['python', 'reciepe_n_health_assisstant/run_flow.py', food],
             text=True,          # Capture output as string
             capture_output=True # Capture both stdout and stderr
         )
     ingredients = result.stdout
     return json.dumps({"ingredient_list": ingredients})
+
+def health_assistant(age, weight, activity_level):
+    result = subprocess.run(
+            ['python', 'reciepe_n_health_assisstant/flow_health_assistant.py', age, weight, activity_level],
+            text=True,          # Capture output as string
+            capture_output=True # Capture both stdout and stderr
+        )
+    recommendation = result.stdout
+    return json.dumps({"essential_nutrients": recommendation})
+
 # Simulated functions to mimic the behavior of the actual LLM calls
 
 
@@ -19,16 +29,18 @@ def recipe_recommendation(category, dietary_restrictions):
     steps = [f"Step {i}: Do something delicious" for i in range(1, random.randint(4, 7))]
     return json.dumps({"recommended_recipe": recipe, "steps": steps})
 
-def health_assistant(age, weight, activity_level):
-    nutrients = [
-        "Vitamin C",
-        "Vitamin D",
-        "Iron",
-        "Calcium",
-        "Protein",
-        "Omega-3 fatty acids"
-    ]
-    return json.dumps({"essential_nutrients": random.sample(nutrients, k=random.randint(3, 6))})
+# def health_assistant(age, weight, activity_level):
+#     nutrients = [
+#         "Vitamin C",
+#         "Vitamin D",
+#         "Iron",
+#         "Calcium",
+#         "Protein",
+#         "Omega-3 fatty acids"
+#     ]
+#     return json.dumps({"essential_nutrients": random.sample(nutrients, k=random.randint(3, 6))})
+
+
 
 # Updated Custom CSS for styling with a new color scheme
 custom_css = """
@@ -139,7 +151,7 @@ def gradio_recipe_health_assistant():
             outputs=[recipe_output]
         )
         health_button.click(
-            lambda x, y, z: format_output(parse_json_output(health_assistant(x, y, z))),
+            lambda x, y, z: format_output(parse_json_output(health_assistant(str(x), str(y), str(z)))),
             inputs=[age_input, weight_input, activity_input],
             outputs=[health_output]
         )
