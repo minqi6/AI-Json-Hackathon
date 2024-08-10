@@ -38,56 +38,30 @@ flow:
         link: recipe_recommendation
 
   
-  health_assistant:
+  advanced_nutritional_analysis:
     action: llm
-    model:
-      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
-    # inputs:
-    #   age: "{{ age }}"
-    #   weight: "{{ weight }}"
-    #   height: "{{ height }}"
-    #   goals: "{{ goals }}"
-    #   activity_level: "{{ activity_level }}"
-    #   medical_conditions: "{{ conditions }}"
-    # outputs:
-    #   nutrition_needed: "{{ nutrition_needed }}"
-    #   recommended_ingredients: "{{ recommended_ingredients }}"
-    #   daily_meal_plan:
-    #     breakfast: "{{ breakfast }}"
-    #     lunch: "{{ lunch }}"
-    #     dinner: "{{ dinner }}"
-    #     snacks: "{{ snacks }}"
     prompt:
-      You are a proffesional health assistant. You will be giving users personalized nutrition advice based on the information they provide. 
-      The information includes the person's "{{ age }}", "{{ weight}}", "{{ activity_level }}". List all the essential nutrients needed for the person's health per day.
+      You are a nutritionist. Given the nutrient distribution "{{ nutrient_distribution }}" and the health benefits "{{ health_benefits }}", provide a detailed analysis of the nutrients.
     output_schema:
-      essential_nutrients:
+      nutrient_distribution: 
         type: array
         items:
           type: string
-  extract:
-      action: extract_list
-      text:
-        link: health_assistant
-        
+      health_benefits: 
+        type: array
+        items:
+          type: string
 
-  # advanced_nutritional_analysis:
-  #   action: llm
-  #   prompt:
-  #     You are a nutritionist. Given the nutrient distribution "{{ nutrient_distribution }}" and the health benefits "{{ health_benefits }}", provide a detailed analysis of the nutrients.
-  #   output_schema:
-  #     nutrient_distribution: "{{ nutrient_distribution }}"
-  #     health_benefits: "{{ health_benefits }}"
-
-    # recipe_adjustments:
-  #   action: adjust_recipe
-  #   inputs:
-  #     recipe: "{{ recipe }}"
-  #     servings: "{{ servings }}"
-  #     substitutions: "{{ substitutions }}"
-  #   outputs:
-  #     adjusted_recipe: "{{ adjusted_recipe }}"
-  #     adjusted_steps: "{{ adjusted_steps }}"
+  recipe_adjustments:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+        Given some of the special dietary requirements "{{ dietary_requirements }}" and the user's "{{ preferences }}", 
+        adjust the recipe given by {{ health_assistant }} to meet the user's needs.
+    output_schema:
+      adjusted_recipe: 
+        type: string
 
 
 ### ------ above are working functions ----- ###
