@@ -1,11 +1,18 @@
 import gradio as gr
 import json
 import random
+import subprocess
 
-# Simulated functions to mimic the behavior of the actual LLM calls
 def ingredient_breakdown(food):
-    ingredients = [f"{food} ingredient {i}" for i in range(1, random.randint(4, 8))]
+    result = subprocess.run(
+            ['python', 'run_flow.py', food],
+            text=True,          # Capture output as string
+            capture_output=True # Capture both stdout and stderr
+        )
+    ingredients = result.stdout
     return json.dumps({"ingredient_list": ingredients})
+# Simulated functions to mimic the behavior of the actual LLM calls
+
 
 def recipe_recommendation(category, dietary_restrictions):
     recipe = f"Delicious {category} recipe"
