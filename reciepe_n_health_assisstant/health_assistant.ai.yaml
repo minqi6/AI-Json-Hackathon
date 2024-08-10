@@ -1,0 +1,47 @@
+version: "0.1"
+
+flow:
+  health_assistant:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+      You are a proffesional health assistant. You will be giving users personalized nutrition advice based on the information they provide. 
+      The information include the user's "{{ age }}", "{{ weight }}", "{{ active_level }}". 
+      Calculate and list the amount of energy, protein, carbohydrates, fat, sodium, dietary fibre intake needed for the user's health per day.
+      Finnally, suggest a recipe that will help the user meet the daily nutritional requirements and explain briefly in no more than 4 sentences why the recipe is recommended.
+    output_schema:
+      essential_nutrients:
+        type: array
+        items:
+          type: string
+          properties:
+            nutrient:
+              type: string
+            amount:
+              type: number
+            unit:
+              type: string
+      suggested_recipe:
+        type: string
+      explanation:
+        type: string
+  recipe_adjustments:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+        Given some of the special dietary requirements "{{ dietary_requirements }}" and the user's "{{ preferences }}", 
+        adjust the recipe given by {{ health_assistant }} to meet the user's needs.
+    output_schema:
+      adjusted_recipe: 
+        type: string
+  extract:
+    action: extract_list
+    text:
+      link: health_assistant.data.suggested_recipe
+
+
+  
+
+   

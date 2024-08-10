@@ -1,0 +1,149 @@
+version: "0.1"
+
+flow:
+  ingredient_breakdown:
+    action: llm
+    model: 
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+      You are a house cook with extensive knowledge of recipes. 
+      Given the food item "{{ food }}", list all the ingredients needed to prepare it.
+    output_schema:
+      ingredient_list: 
+        type: array
+        items: 
+          type: string
+
+  recipe_recommendation:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt: You are a house cook with extensive knowledge of recipes.
+      Given the food category "{{ category }}" and dietary restrictions "{{ dietary_restrictions }}", recommend a recipe.
+    output_schema:
+      recommended_recipe:
+        type: string
+      steps:
+        type: array
+        items:
+          type: string
+  # extract:
+  #     action: extract_list
+  #     text:
+  #       link: recipe_recommendation
+
+  health_assistant:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+      You are a proffesional health assistant. You will be giving users personalized nutrition advice based on the information they provide. 
+      The information include the user's "{{ age }}", "{{ gender }}", "{{ weight }}", "{{ activity_level }}". 
+      Calculate and list the amount of energy, protein, carbohydrates, fat, sodium, dietary fibre intake needed for the user's health per day.
+      Finnally, suggest a recipe that will help the user meet the daily nutritional requirements and explain briefly why the recipe is recommended.
+    output_schema:
+      essential_nutrients:
+        type: array
+        items:
+          type: string
+          properties:
+            nutrient:
+              type: string
+            amount:
+              type: number
+            unit:
+              type: string
+      suggested_recipe:
+        type: string
+      explanation:
+        type: string
+
+
+  
+  advanced_nutritional_analysis:
+    action: llm
+    prompt:
+      You are a nutritionist. Given the nutrient distribution "{{ nutrient_distribution }}" and the health benefits "{{ health_benefits }}", provide a detailed analysis of the nutrients.
+    output_schema:
+      nutrient_distribution: 
+        type: array
+        items:
+          type: string
+      health_benefits: 
+        type: array
+        items:
+          type: string
+
+  recipe_adjustments:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt:
+        Given some of the special dietary requirements "{{ dietary_requirements }}" and the user's "{{ preferences }}", 
+        adjust the recipe given by {{ health_assistant }} to meet the user's needs.
+    output_schema:
+      adjusted_recipe: 
+        type: string
+
+### ------ above are working functions ----- ###
+
+
+  # user_feedback:
+  #   action: collect_feedback
+  #   inputs:
+  #     user_id: "{{ user_id }}"
+  #     feedback: "{{ feedback }}"
+  #   outputs:
+  #     status: "{{ status }}"
+  #     comments: "{{ comments }}"
+
+  # contextual_recipe_suggestions:
+  #   action: llm
+  #   model:
+  #     model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+  #   prompt:
+  #     You are a recipe suggestion model. Given the user's past meals "{{ past_meals }}" and the current context "{{ context }}", suggest a recipe.
+  #   output_schema:
+  #     suggested_recipes: 
+  #       type: array
+  #       items:
+  #         type: string
+  #     context_notes:
+  #       type: string
+
+  # grocery_integration:
+  #   action: find_grocery_stores
+  #   inputs:
+  #     ingredients: "{{ ingredients }}"
+  #     location: "{{ user_location }}"
+  #   outputs:
+  #     store_links: "{{ store_links }}"
+  #     delivery_options: "{{ delivery_options }}"
+
+  # personalized_recommendations:
+  #   action: generate_recommendations
+  #   inputs:
+  #     user_id: "{{ user_id }}"
+  #     past_meals: "{{ past_meals }}"
+  #     preferences: "{{ preferences }}"
+  #   outputs:
+  #     personalized_recipes: "{{ personalized_recipes }}"
+  #     recommended_ingredients: "{{ recommended_ingredients }}"
+
+  # logging_and_analytics:
+  #   action: log_usage
+  #   inputs:
+  #     user_id: "{{ user_id }}"
+  #     action: "{{ action }}"
+  #     timestamp: "{{ timestamp }}"
+  #     details: "{{ details }}"
+  #   outputs:
+  #     log_status: "{{ log_status }}"
+
+  # multilingual_support:
+  #   action: translate
+  #   inputs:
+  #     text: "{{ text }}"
+  #     target_language: "{{ target_language }}"
+  #   outputs:
+  #     translated_text: "{{ translated_text }}"
