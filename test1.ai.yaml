@@ -3,22 +3,22 @@ version: "0.1"
 flow:
   ingredient_breakdown:
     action: llm
-    model:
+    model: 
       model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
     prompt:
-      You are a house cook with extensive knowledge of recipes.
+      You are a house cook with extensive knowledge of recipes. 
       Given the food item "{{ food }}", list all the ingredients needed to prepare it.
     output_schema:
-      ingredient_list:
+      ingredient_list: 
         type: array
-        items:
+        items: 
           type: string
   extract:
       action: extract_list
       text:
         link: ingredient_breakdown
 
-  ### below need debugging ###
+
   recipe_recommendation:
     action: llm
     model:
@@ -32,68 +32,56 @@ flow:
         type: array
         items:
           type: string
+  extract:
+      action: extract_list
+      text:
+        link: recipe_recommendation
 
-  # health_assistant:
-  #   action: health_analysis
-  #   prompt:
-  #     age: "{{ age }}"
-  #     weight: "{{ weight }}"
-  #     height: "{{ height }}"
-  #     goals: "{{ goals }}"
-  #     activity_level: "{{ activity_level }}"
-  #     medical_conditions: "{{ conditions }}"
-  #   outputs:
-  #     nutrition_needed: "{{ nutrition_needed }}"
-  #     recommended_ingredients: "{{ recommended_ingredients }}"
-  #     daily_meal_plan:
-  #       breakfast: "{{ breakfast }}"
-  #       lunch: "{{ lunch }}"
-  #       dinner: "{{ dinner }}"
-  #       snacks: "{{ snacks }}"
-
-  # user_feedback:
-  #   action: collect_feedback
-  #   prompt:
-  #     user_id: "{{ user_id }}"
-  #     feedback: "{{ feedback }}"
-  #   outputs:
-  #     status: "{{ status }}"
-  #     comments: "{{ comments }}"
-
-  # contextual_recipe_suggestions:
-  #   action: contextual_recipe_generator
-  #   prompt:
-  #     category: "{{ category }}"
-  #     type: "{{ type }}"
-  #     dietary_restrictions: "{{ dietary_restrictions }}"
-  #     available_ingredients: "{{ ingredients }}"
-  #     user_preferences: "{{ user_preferences }}"
-  #     seasonal_ingredients: "{{ seasonal_ingredients }}"
-  #   outputs:
-  #     suggested_recipes: "{{ suggested_recipes }}"
-  #     context_notes: "{{ context_notes }}"
-
-  # grocery_integration:
-  #   action: find_grocery_stores
-  #   prompt:
-  #     ingredients: "{{ ingredients }}"
-  #     location: "{{ user_location }}"
-  #   outputs:
-  #     store_links: "{{ store_links }}"
-  #     delivery_options: "{{ delivery_options }}"
+  
+  health_assistant:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    # inputs:
+    #   age: "{{ age }}"
+    #   weight: "{{ weight }}"
+    #   height: "{{ height }}"
+    #   goals: "{{ goals }}"
+    #   activity_level: "{{ activity_level }}"
+    #   medical_conditions: "{{ conditions }}"
+    # outputs:
+    #   nutrition_needed: "{{ nutrition_needed }}"
+    #   recommended_ingredients: "{{ recommended_ingredients }}"
+    #   daily_meal_plan:
+    #     breakfast: "{{ breakfast }}"
+    #     lunch: "{{ lunch }}"
+    #     dinner: "{{ dinner }}"
+    #     snacks: "{{ snacks }}"
+    prompt:
+      You are a proffesional health assistant. You will be giving users personalized nutrition advice based on the information they provide. 
+      The information includes the person's "{{ age }}", "{{ weight}}", "{{ activity_level }}". List all the essential nutrients needed for the person's health per day.
+    output_schema:
+      essential_nutrients:
+        type: array
+        items:
+          type: string
+  extract:
+      action: extract_list
+      text:
+        link: health_assistant
+        
 
   # advanced_nutritional_analysis:
-  #   action: nutritional_analysis
+  #   action: llm
   #   prompt:
-  #     ingredients: "{{ ingredients }}"
-  #     daily_nutrition_requirements: "{{ daily_nutrition_requirements }}"
-  #   outputs:
+  #     You are a nutritionist. Given the nutrient distribution "{{ nutrient_distribution }}" and the health benefits "{{ health_benefits }}", provide a detailed analysis of the nutrients.
+  #   output_schema:
   #     nutrient_distribution: "{{ nutrient_distribution }}"
   #     health_benefits: "{{ health_benefits }}"
 
-  # recipe_adjustments:
+    # recipe_adjustments:
   #   action: adjust_recipe
-  #   prompt:
+  #   inputs:
   #     recipe: "{{ recipe }}"
   #     servings: "{{ servings }}"
   #     substitutions: "{{ substitutions }}"
@@ -101,9 +89,45 @@ flow:
   #     adjusted_recipe: "{{ adjusted_recipe }}"
   #     adjusted_steps: "{{ adjusted_steps }}"
 
+
+### ------ above are working functions ----- ###
+
+
+  # user_feedback:
+  #   action: collect_feedback
+  #   inputs:
+  #     user_id: "{{ user_id }}"
+  #     feedback: "{{ feedback }}"
+  #   outputs:
+  #     status: "{{ status }}"
+  #     comments: "{{ comments }}"
+
+  # contextual_recipe_suggestions:
+  #   action: llm
+  #   model:
+  #     model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+  #   prompt:
+  #     You are a recipe suggestion model. Given the user's past meals "{{ past_meals }}" and the current context "{{ context }}", suggest a recipe.
+  #   output_schema:
+  #     suggested_recipes: 
+  #       type: array
+  #       items:
+  #         type: string
+  #     context_notes:
+  #       type: string
+
+  # grocery_integration:
+  #   action: find_grocery_stores
+  #   inputs:
+  #     ingredients: "{{ ingredients }}"
+  #     location: "{{ user_location }}"
+  #   outputs:
+  #     store_links: "{{ store_links }}"
+  #     delivery_options: "{{ delivery_options }}"
+
   # personalized_recommendations:
   #   action: generate_recommendations
-  #   prompt:
+  #   inputs:
   #     user_id: "{{ user_id }}"
   #     past_meals: "{{ past_meals }}"
   #     preferences: "{{ preferences }}"
@@ -113,7 +137,7 @@ flow:
 
   # logging_and_analytics:
   #   action: log_usage
-  #   prompt:
+  #   inputs:
   #     user_id: "{{ user_id }}"
   #     action: "{{ action }}"
   #     timestamp: "{{ timestamp }}"
@@ -123,7 +147,7 @@ flow:
 
   # multilingual_support:
   #   action: translate
-  #   prompt:
+  #   inputs:
   #     text: "{{ text }}"
   #     target_language: "{{ target_language }}"
   #   outputs:
