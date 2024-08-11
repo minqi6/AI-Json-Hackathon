@@ -13,7 +13,6 @@ Discover the Features of Our Health and Recipe App
 ## Example Usage
 Input interface:
 <img width="1470" alt="<img width="934" alt="image" src="https://github.com/user-attachments/assets/3dc36028-602a-4d9e-986e-29dd21bb1afc">
-" src="https://github.com/user-attachments/assets/5da508f6-0455-42d0-a04b-01a11ae994d6">
 
 Output results:
 <img width="1470" alt="Screenshot 2024-08-11 at 14 27 25" src="https://github.com/user-attachments/assets/63973fa4-e2e5-4a04-a15d-aa9bba9d12b8">
