@@ -1,4 +1,4 @@
-# AI powered personalized Health and Recipe Recommendation App
+# AI personalized Health and Recipe Recommendation App
 
 
 
