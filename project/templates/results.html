@@ -3,56 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health and Recipe Report</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Health and Recipe Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Health and Recipe Report</h1>
-
         <div class="bg-white p-4 rounded shadow">
-            <section id="dietary-preferences" class="mb-6">
-                <h2 class="text-xl font-semibold mb-2">Dietary Preferences</h2>
-                <p>{{ dietary_preferences }}</p>
-            </section>
-
-            <section id="health-goals" class="mb-6">
-                <h2 class="text-xl font-semibold mb-2">Health Goals</h2>
-                <p>{{ health_goals }}</p>
-            </section>
-
-            <section id="meal-plan" class="mb-6">
-                <h2 class="text-xl font-semibold mb-2">Daily Meal Plan</h2>
-                {% for meal in meals %}
-                <div class="mb-4">
-                    <h3 class="text-lg font-medium">{{ meal.name }}</h3>
-                    <p>{{ meal.details }}</p>
-                </div>
-                {% endfor %}
-            </section>
-
-            <section id="recipes" class="mb-6">
-                <h2 class="text-xl font-semibold mb-2">Recipes</h2>
-                {% for recipe in recipes %}
-                <div class="mb-4 p-4 bg-gray-50 rounded">
-                    <h3 class="text-lg font-medium mb-2">{{ recipe.name }}</h3>
-                    <h4 class="font-medium mb-1">Ingredients:</h4>
-                    <ul class="list-disc list-inside mb-2">
-                        {% for ingredient in recipe.ingredients %}
-                        <li>{{ ingredient }}</li>
-                        {% endfor %}
-                    </ul>
-                    <h4 class="font-medium mb-1">Instructions:</h4>
-                    <ol class="list-decimal list-inside">
-                        {% for step in recipe.instructions %}
-                        <li>{{ step }}</li>
-                        {% endfor %}
-                    </ol>
-                </div>
-                {% endfor %}
-            </section>
+            {{ results | safe }}
         </div>
-
         <a href="/" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Form</a>
     </div>
 </body>
