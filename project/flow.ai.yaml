@@ -1,0 +1,48 @@
+version: "0.1"
+
+default_model:
+  model: anthropic.claude-v2
+  api_base: https://bedrock-runtime.us-west-2.amazonaws.com
+  auth_token:
+    env: AWS_ACCESS_KEY_ID
+
+flow:
+  get_recipe_ideas:
+    action: llm
+    prompt: |
+      Based on the user's dietary preferences and health goals, provide 3-5 healthy recipe ideas. 
+      Consider the following information:
+      Dietary Preferences: {{ dietary_preferences }}
+      Health Goals: {{ health_goals }}
+
+      Include ingredients and a brief preparation method for each recipe. Format your response as a numbered list.
+
+  evaluate_nutrition:
+    action: llm
+    prompt: |
+      Evaluate the nutritional balance of the user's current diet based on the following data:
+      Daily Meals:
+      {% for meal, details in meals.items() %}
+      - {{ meal }}: {{ details }}
+      {% endfor %}
+      Health Goals: {{ health_goals }}
+
+      Provide an analysis including:
+      1. Nutritional strengths and weaknesses
+      2. Suggestions for improvement to align with health goals
+      3. Any areas of concern
+
+      Format your response as a bullet-point list.
+
+  compile_results:
+    action: llm
+    prompt: |
+      Compile the following results into a comprehensive health report:
+
+      Recipe Ideas:
+      {{ get_recipe_ideas }}
+
+      Nutritional Evaluation:
+      {{ evaluate_nutrition }}
+
+      Format the report with clear sections for each part of the analysis.
