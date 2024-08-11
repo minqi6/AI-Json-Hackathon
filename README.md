@@ -17,4 +17,4 @@ Input interface:
 
 Output results:
 <img width="932" alt="image" src="https://github.com/user-attachments/assets/5150ba8d-711c-46bd-9d4d-e7e94b2b3886">
-">
+
