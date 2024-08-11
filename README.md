@@ -11,3 +11,8 @@ Discover the Features of Our Health and Recipe App
 3. Run stream.py file
 
 ## Example Usage
+Input interface:
+<img width="1470" alt="Screenshot 2024-08-11 at 14 26 35" src="https://github.com/user-attachments/assets/5da508f6-0455-42d0-a04b-01a11ae994d6">
+
+Output results:
+<img width="1470" alt="Screenshot 2024-08-11 at 14 27 25" src="https://github.com/user-attachments/assets/63973fa4-e2e5-4a04-a15d-aa9bba9d12b8">
