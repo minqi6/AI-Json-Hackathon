@@ -1,9 +1,0 @@
-version: "0.1"
-flow:
-  ask:
-    action: llm
-    prompt: List some examples of {{ thing }}, only need to list their names.
-  extract:
-    action: split_text
-    text:
-      link: ask
