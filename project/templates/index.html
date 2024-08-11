@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health and Recipe System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-4">Health and Recipe System</h1>
+        <form action="/" method="post" class="space-y-4">
+            <div>
+                <label for="dietary_preferences" class="block mb-1">Dietary Preferences:</label>
+                <input type="text" id="dietary_preferences" name="dietary_preferences" required class="w-full p-2 border rounded">
+            </div>
+            <div>
+                <label for="health_goals" class="block mb-1">Health Goals:</label>
+                <input type="text" id="health_goals" name="health_goals" required class="w-full p-2 border rounded">
+            </div>
+            <h2 class="text-xl font-semibold mt-4">Daily Meals</h2>
+            {% for i in range(1, 4) %}
+            <div class="space-y-2">
+                <div>
+                    <label for="meal_name_{{ i }}" class="block mb-1">Meal {{ i }} Name:</label>
+                    <input type="text" id="meal_name_{{ i }}" name="meal_name_{{ i }}" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label for="meal_details_{{ i }}" class="block mb-1">Meal {{ i }} Details:</label>
+                    <textarea id="meal_details_{{ i }}" name="meal_details_{{ i }}" class="w-full p-2 border rounded"></textarea>
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
