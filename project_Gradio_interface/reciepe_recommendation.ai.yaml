@@ -1,0 +1,14 @@
+version: "0.1"
+
+flow:
+  recipe_recommendation:
+    action: llm
+    model:
+      model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
+    prompt: You are a house cook with extensive knowledge of recipes.
+      Given the food category "{{ category }}" from (Appetizer, Main Course, Dessert or Snack) 
+      and dietary restrictions "{{ dietary_restrictions }}" from (vegetarian, vegan, gluten-free, dairy-free, nut-free), recommend a recipe.
+    output_schema:
+      recommended_recipe:
+        type: string
+default_output: recipe_recommendation.data.recommended_recipe
